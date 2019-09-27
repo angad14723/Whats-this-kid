@@ -7,15 +7,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whats_this_kid/screens/alphabets_game_page.dart';
 import 'package:whats_this_kid/utlis/constants.dart';
 
-class Alphabets extends StatefulWidget {
+class Numbers extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return AlphabetsState();
+    return NumbersState();
   }
 }
 
-class AlphabetsState extends State<Alphabets> {
+class NumbersState extends State<Numbers> {
+
   /*TODO Fetching Shared Pref Data*/
 
   bool sublevel_lock = false;
@@ -25,9 +26,9 @@ class AlphabetsState extends State<Alphabets> {
   List<bool> lockList = [];
   List<int> progressList = [];
 
-  Future<List<LevelPoDo>> fetchSharedPrefData() async {
-    final prefs = await SharedPreferences.getInstance();
+  Future<List<LevelPoDoNumber>> fetchSharedPrefData() async {
 
+    final prefs = await SharedPreferences.getInstance();
     var localData = prefs.getString(Constant().LOCAL_JSON) ?? "";
 
     print("local marvel=$localData");
@@ -38,21 +39,27 @@ class AlphabetsState extends State<Alphabets> {
     print("category marvel=$category");
 
     for (int i = 0; i < category.length; i++) {
-      var mLevels0 = category[0];
+
+      var mLevels0 = category[1];
 
       var mLevels = mLevels0["levels"];
+
       print("levels marvel $mLevels");
       // sublevelList.clear();
       for (int j = 0; j < mLevels.length; j++) {
+
         var levelObjects = mLevels[j];
         String mPhaseName = levelObjects["level_name"];
         String mPhaseLogo = levelObjects["level_icon"];
+        
         print("phasename marvel $mPhaseName");
+
         var mSubLevel = levelObjects["sub_levels"];
 
-        List<LevelPoDo> usersList = [];
+        List<LevelPoDoNumber> usersList = [];
 
         for (int k = 0; k < mSubLevel.length; k++) {
+
           var sublevelObject = mSubLevel[k];
 
           String subLevelName = sublevelObject["sub_levels_name"];
@@ -69,7 +76,7 @@ class AlphabetsState extends State<Alphabets> {
 
           print("title1 ${subLevelName}");
 
-          LevelPoDo levelPoDo = LevelPoDo.fromJson(sublevelObject);
+          LevelPoDoNumber levelPoDo = LevelPoDoNumber.fromJson(sublevelObject);
 
           print("levelPoDo ${levelPoDo.listStages[0].stage_name}");
 
@@ -340,29 +347,29 @@ class AlphabetsState extends State<Alphabets> {
   }
 }
 
-class LevelPoDo {
+class LevelPoDoNumber {
   String mLevelName;
   String mLevelImage;
   bool mLevelLock, visibilityLock;
 
-  List<StagesPoDo> listStages;
+  List<StagesPoDoNumbers> listStages;
 
-  LevelPoDo(
+  LevelPoDoNumber(
       {this.mLevelName,
       this.mLevelImage,
       this.listStages,
       this.mLevelLock,
       this.visibilityLock});
 
-  factory LevelPoDo.fromJson(Map<String, dynamic> json) {
+  factory LevelPoDoNumber.fromJson(Map<String, dynamic> json) {
     var list = json['stages'] as List;
 
     print("from stageslevel=${list}");
 
-    List<StagesPoDo> stagesList =
-        list.map((i) => StagesPoDo.fromJson(i)).toList();
+    List<StagesPoDoNumbers> stagesList =
+        list.map((i) => StagesPoDoNumbers.fromJson(i)).toList();
 
-    return LevelPoDo(
+    return LevelPoDoNumber(
         mLevelImage: json["sub_level_icon"],
         mLevelName: json["sub_levels_name"],
         mLevelLock: json["sublevel_lock"],
@@ -371,20 +378,20 @@ class LevelPoDo {
   }
 }
 
-class StagesPoDo {
+class StagesPoDoNumbers {
   String stage_name;
   String stage_image_name;
   String stage_hidden_image;
   bool mComplete;
 
-  StagesPoDo(
+  StagesPoDoNumbers(
       {this.stage_name,
       this.stage_image_name,
       this.stage_hidden_image,
       this.mComplete});
 
-  factory StagesPoDo.fromJson(Map<String, dynamic> json) {
-    return StagesPoDo(
+  factory StagesPoDoNumbers.fromJson(Map<String, dynamic> json) {
+    return StagesPoDoNumbers(
         mComplete: json["completed"],
         stage_name: json["stage_name"],
         stage_image_name: json["stage_image_name"],

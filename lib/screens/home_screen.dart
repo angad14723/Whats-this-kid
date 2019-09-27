@@ -1,10 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'package:whats_this_kid/screens/alphabets_list.dart';
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whats_this_kid/screens/alphabets_list.dart';
+import 'package:whats_this_kid/screens/numbers_list.dart';
+import 'package:whats_this_kid/screens/test.dart';
 import 'package:whats_this_kid/utlis/constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -83,11 +87,11 @@ class HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: EdgeInsets.all(20),
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Alphbets(),
+                            builder: (context) => Alphabets(),
                           ));
                     },
                     /*TODO Marvel Screen*/
@@ -115,8 +119,8 @@ class HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                           // builder: (context) => GOT(),
-                          ));
+                               builder: (context) => TestSeekBarPage(),
+                              ));
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -156,19 +160,26 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Padding(
                             padding: EdgeInsets.only(right: 30, left: 30),
                             child: Container(
-                              alignment: Alignment.center,
-                              child: Card(
-                                  child: Container(
-                                      height: 40,
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Scores",
-                                      ))),
-                            ),
+                                alignment: Alignment.center,
+                                child: Card(
+                                  child: InkWell(
+                                    onTap: (){
+
+                                    },
+                                      child: Container(
+                                          height: 40,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Store",
+                                          ))
+
+                                  ),
+                                )),
                           ),
                         )
                       ],
@@ -213,7 +224,6 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void _loadSharedPrefData() async {
-
     final pref = await SharedPreferences.getInstance();
 
     var prefData = pref.getString(Constant().LOCAL_JSON) ?? "";
@@ -230,7 +240,6 @@ class HomeScreenState extends State<HomeScreen> {
     print("category = $category");
 
     for (int i = 0; i < category.length; i++) {
-
       var cat = category[0];
       var cat1 = category[1];
 
@@ -240,4 +249,5 @@ class HomeScreenState extends State<HomeScreen> {
       print("category name ${mCategory0 + mCategory1}");
     }
   }
+
 }

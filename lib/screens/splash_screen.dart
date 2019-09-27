@@ -6,7 +6,6 @@ import 'package:whats_this_kid/utlis/constants.dart';
 
 import 'home_screen.dart';
 
-
 class SplashScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -16,13 +15,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashState extends State<SplashScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     modifyLocalJson();
+
     callWaitMethod();
   }
 
@@ -31,59 +30,53 @@ class SplashState extends State<SplashScreen> {
     // TODO: implement build
     return Scaffold(
         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("images/splash.png"), fit: BoxFit.cover),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage("images/splash.png"), fit: BoxFit.cover),
+      ),
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+                padding: EdgeInsets.only(right: 10.0, left: 10.0),
+                child: Center(
+                  child: Image.asset("images/reveal_icon.png"),
+                )),
           ),
-
-          child: Stack(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                    padding: EdgeInsets.only(right: 10.0, left: 10.0),
-                    child: Center(
-                      child: Image.asset("images/reveal_icon.png"),
-                    )),
-              ),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 20.0, top: 100),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "povered by",
-                          style: TextStyle(color: Colors.white, fontSize: 15.0),
-                        ),
-                        Image.asset(
-                          "images/terasol_logo.png",
-                          width: 30,
-                          height: 30,
-                        ),
-                        Text(
-                          "Terasol Technologies",
-                          style: TextStyle(color: Colors.white, fontSize: 20.0),
-                        )
-                      ],
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 20.0, top: 100),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "povered by",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
                     ),
-                  )
-              ),
-
-            ],
-          ),
-        ));
+                    Image.asset(
+                      "images/terasol_logo.png",
+                      width: 30,
+                      height: 30,
+                    ),
+                    Text(
+                      "Terasol Technologies",
+                      style: TextStyle(color: Colors.white, fontSize: 20.0),
+                    )
+                  ],
+                ),
+              )),
+        ],
+      ),
+    ));
   }
 
-  void callWaitMethod() async{
+  void callWaitMethod() async {
 
-    Future.delayed(Duration(seconds: 2),() {
+    Future.delayed(Duration(seconds: 2), () {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => HomeScreen()
-          ));
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
     });
   }
 
@@ -91,35 +84,43 @@ class SplashState extends State<SplashScreen> {
 
     final pref2 = await SharedPreferences.getInstance();
 
-    pref2.setBool(Constant().LOGGEDIN, true);
+    print("prefLogged1 ${pref2.getBool(Constant().LOGGEDIN) ?? false}");
 
-    String data = await DefaultAssetBundle.of(context)
-        .loadString("json/local_json.json");
+    var loggedIn = pref2.getBool(Constant().LOGGEDIN) ?? false;
 
-    print("json from assets$data");
+    if (!loggedIn) {
 
-    var decoded = jsonDecode(data);
+      pref2.setBool(Constant().LOGGEDIN, true);
 
-    print("decoded 1=$decoded");
+      print("prefLogged2 ${pref2.getBool(Constant().LOGGEDIN) ?? false}");
 
-    var encoded = jsonEncode(decoded);
+      String data = await DefaultAssetBundle.of(context)
+          .loadString("json/local_json.json");
 
-    print("encoded 1=$encoded");
+      print("json from assets$data");
 
-    /*TODO LOADING DATA FROM SHARED-PREF*/
+      var decoded = jsonDecode(data);
 
-    pref2.setString(Constant().LOCAL_JSON,
-        encoded.toString()); //storing data into shared pref
+      print("decoded 1=$decoded");
 
-    var localData = pref2.getString(Constant().LOCAL_JSON) ?? "";
+      var encoded = jsonEncode(decoded);
 
-    var decodedLocal = jsonDecode(localData);
+      print("encoded 1=$encoded");
 
-    print("decoded data =$decodedLocal");
+      /*TODO LOADING DATA FROM SHARED-PREF*/
 
-    /*TODO LOOP ON DECODED DATA*/
+      pref2.setString(Constant().LOCAL_JSON,
+          encoded.toString()); //storing data into shared pref
 
-    /*var category = decoded["value"]; // as List;
+      var localData = pref2.getString(Constant().LOCAL_JSON) ?? "";
+
+      var decodedLocal = jsonDecode(localData);
+
+      print("decoded data =$decodedLocal");
+
+      /*TODO LOOP ON DECODED DATA*/
+
+      /*var category = decoded["value"]; // as List;
     print("category = $category");
 
     for(int i=0;i<category.length;i++){
@@ -141,79 +142,85 @@ class SplashState extends State<SplashScreen> {
 
     print("Testing Json $decoded");*/
 
-    /*TODO Operation on json*/
+      /*TODO Operation on json*/
 
-    var category = decodedLocal["value"]; // as List;
+      var category = decodedLocal["value"]; // as List;
 
-    print("category = $category");
+      print("category = $category");
 
-    for (int i = 0; i < category.length; i++) {
-      var mCategory = category[i];
+      for (int i = 0; i < category.length; i++) {
+        var mCategory = category[i];
 
-      var mLevel = mCategory["levels"];
+        var mLevel = mCategory["levels"];
 
-      for (int j = 0; j < mLevel.length; j++) {
-        var mLevelObject = mLevel[j];
+        for (int j = 0; j < mLevel.length; j++) {
+          var mLevelObject = mLevel[j];
 
-        print("Testing Json $mLevelObject");
+          print("Testing Json $mLevelObject");
 
-        //mObject["sub_levels"] = [];
+          //mObject["sub_levels"] = [];
 
-        mLevelObject["level_lock"] = true;
+          mLevelObject["level_lock"] = true;
 
-        var mSubLevel = mLevelObject["sub_levels"];
+          var mSubLevel = mLevelObject["sub_levels"];
 
-        for (int k = 0; k < mSubLevel.length; k++) {
-          var mSubLvObject = mSubLevel[k];
+          for (int k = 0; k < mSubLevel.length; k++) {
 
-          mSubLvObject["sublevel_lock"] = false;
-          mSubLvObject["checksub_lock"] = false;
-          mSubLvObject["progress_percentage"] = 0;
+            var mSubLvObject = mSubLevel[k];
 
-          // mSubLvObject["stages"]=[];
+            k == 0
+                ? mSubLvObject["sublevel_lock"] = true
+                : mSubLvObject["sublevel_lock"] = false;
 
-          var mStages = mSubLvObject["stages"];
+            mSubLvObject["visibility_lock"] = false;
 
-          for (int l = 0; l < mStages.length; l++) {
-            var mStagesObject = mStages[l];
+            mSubLvObject["progress_percentage"] = 0;
 
-            mStagesObject["completed"] = false;
-            mStagesObject["wrong_attempts"] = 0;
-            mStagesObject["durations"] = 0;
-            mStagesObject["score"] = 0;
+            // mSubLvObject["stages"]=[];
 
-            mStages[l] = mStagesObject;
+            var mStages = mSubLvObject["stages"];
+
+            for (int l = 0; l < mStages.length; l++) {
+              var mStagesObject = mStages[l];
+
+              mStagesObject["completed"] = false;
+              mStagesObject["wrong_attempts"] = 0;
+              mStagesObject["durations"] = 0;
+              mStagesObject["score"] = 0;
+
+              mStages[l] = mStagesObject;
+            }
+
+            mSubLevel[k] = mSubLvObject;
           }
 
-          mSubLevel[k] = mSubLvObject;
+          mLevel[j] = mLevelObject;
         }
 
-        mLevel[j] = mLevelObject;
+        mCategory["levels"] = mLevel;
+
+        category[i] = mCategory;
       }
+      decoded["value"] = category;
 
-      mCategory["levels"] = mLevel;
+      print("Testing Json $decoded");
 
-      category[i] = mCategory;
-    }
-    decoded["value"] = category;
+      var encoded1 = jsonEncode(decodedLocal);
 
-    print("Testing Json $decoded");
+      print("encoded 1=$encoded1");
 
-    var encoded1 = jsonEncode(decodedLocal);
+      pref2.setString(Constant().LOCAL_JSON,
+          encoded1.toString()); //storing data into shared pref
 
-    print("encoded 1=$encoded1");
+      var localData2 = pref2.getString(Constant().LOCAL_JSON) ?? "";
 
-    pref2.setString(Constant().LOCAL_JSON,
-        encoded1.toString()); //storing data into shared pref
+      print("local data =$localData2");
 
-    var localData2 = pref2.getString(Constant().LOCAL_JSON) ?? "";
+      /*TODO ADDING DATA IN  MODELCLASS*/
 
-    print("local data =$localData2");
-
-    /*TODO ADDING DATA IN  MODELCLASS*/
-
-    /* DataModel dataModel = new DataModel.fromJson(decodedLocal);
+      /* DataModel dataModel = new DataModel.fromJson(decodedLocal);
     print("data 2=${dataModel.jsonModel[0].category}");*/
-  }
 
+    }
+  }
 }

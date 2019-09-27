@@ -31,6 +31,10 @@ dependencies:
   dynamic_widget: ^0.0.1
   giffy_dialog:
   fluttertoast: ^3.1.3
+  flutter_svg: 0.14.1
+  audioplayers: ^0.13.2
+  vibrate: 0.0.4
+  seekbar: 0.0.2
 
 dev_dependencies:
   flutter_test:
@@ -61,7 +65,37 @@ flutter:
     - images/reveal_icon.png
     - images/terasol_logo.png
     - json/local_json.json
-    - tiger.jpeg
+    - images/tiger.jpeg
+    - images/cat.jpg
+    - images/rat.jpg
+    - images/lion.png
+    - images/hen.jpg
+    - images/sparrow.png
+    - images/peigon.png
+    - images/peacock1.png
+    - images/potato.png
+    - images/apple.png
+    - images/carrot.png
+    - images/crow.png
+    - images/dog.png
+    - images/guava.png
+    - images/hen.jpg
+    - images/potato.png
+    - images/sparrow.png
+    - images/orange.jpg
+    - images/banana.jpeg
+    - images/tomato.jpg
+    - images/mango.jpeg
+    - images/bringle.jpg
+    - images/onion.jpg
+    - images/mango.jpg
+    - images/home.svg
+    - images/speaker.svg
+    - assets/click.wav
+    - assets/error_loose.mp3
+    - assets/delete_three.wav
+
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

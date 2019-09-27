@@ -1,20 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:audioplayers/audio_cache.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dynamic_widget/dynamic_widget/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vibrate/vibrate.dart';
 import 'package:whats_this_kid/screens/alphabets_game_page.dart';
 
 import '../utlis/constants.dart';
 import 'alphabets_list.dart';
 
-class GameItem extends StatefulWidget {
+/*class GameItem extends StatefulWidget {
   String gameTitle;
   String gameImage;
   String gameLevelName;
@@ -33,9 +29,6 @@ class GameItem extends StatefulWidget {
 class GameItemState extends State<GameItem> {
   Timer _timer;
   int _start = 0;
-  bool canVibrate = false;
-
-  double sliderValue = 100.0;
 
   int seconds = 0, minutes = 0, totalTime = 0;
 
@@ -166,7 +159,7 @@ class GameItemState extends State<GameItem> {
       }
       Dialog errorDialog = Dialog(
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         //this right here
         child: Container(
           height: 550.0,
@@ -182,13 +175,13 @@ class GameItemState extends State<GameItem> {
                   Padding(padding: EdgeInsets.only(left: 30)),
                   Expanded(
                       child: Text(
-                    timeOnScreen.toString(),
-                    style: TextStyle(color: Color(0xff0B3672), fontSize: 16.0),
-                  )),
+                        timeOnScreen.toString(),
+                        style: TextStyle(color: Colors.indigo, fontSize: 16.0),
+                      )),
                   Expanded(
                       child: Text("Animal",
-                          style: TextStyle(
-                              color: Color(0xff0B3672), fontSize: 20.0))),
+                          style:
+                          TextStyle(color: Colors.indigo, fontSize: 20.0))),
                   Expanded(
                     child: Row(
                       children: <Widget>[
@@ -197,8 +190,8 @@ class GameItemState extends State<GameItem> {
                           color: Colors.yellow,
                         ),
                         Text(totalPoints.toString(),
-                            style: TextStyle(
-                                color: Color(0xff0B3672), fontSize: 20.0))
+                            style:
+                            TextStyle(color: Colors.indigo, fontSize: 20.0))
                       ],
                     ),
                   ),
@@ -210,7 +203,7 @@ class GameItemState extends State<GameItem> {
                 child: Text(
                   widget.gameTitle,
                   style: TextStyle(
-                    color: Color(0xff0B3672),
+                    color: Colors.indigo,
                     fontSize: 20.0,
                   ),
                 ),
@@ -220,12 +213,12 @@ class GameItemState extends State<GameItem> {
                   child: Container(
                     width: double.infinity,
                     height: 250,
-                    child: Image.asset("images/${widget.gameImage}"),
-                  )),
+                    child:Image.asset("images/${widget.gameImage}"),)
+              ),
               Padding(padding: EdgeInsets.all(30.0)),
               FloatingActionButton(
                   elevation: 5.0,
-                  backgroundColor: Color(0xff0B3672),
+                  backgroundColor: Colors.blue,
                   onPressed: () {
                     print("testComplete2 $completeLast");
 
@@ -248,10 +241,9 @@ class GameItemState extends State<GameItem> {
       showDialog(
           context: context, builder: (BuildContext context) => errorDialog);
     } else {
-      errorSound();
       wrongEntryCount++;
 
-      if (wrongEntryCount >= 1 && totalPoints != 0) {
+      if (wrongEntryCount >= 2) {
         wrongAttempts++;
 
         print("wrongAttempts ${wrongAttempts}");
@@ -371,9 +363,10 @@ class GameItemState extends State<GameItem> {
             mSubLvObject["progress_percentage"] = prefProgressPerc;
 
             if (prefProgressPerc == 100) {
+
               mSubLvObject["visibility_lock"] = true;
 
-              if (k <= 2) {
+              if (k <= 3) {
                 mSubLevel[k + 1]["sublevel_lock"] = true;
               }
 
@@ -461,8 +454,8 @@ class GameItemState extends State<GameItem> {
 
     _timer = new Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
+          (Timer timer) => setState(
+            () {
           if (seconds == 59) {
             minutes = minutes + 1;
 
@@ -489,7 +482,7 @@ class GameItemState extends State<GameItem> {
 
     print("local marvel=$localData");
     var decoded = jsonDecode(localData);
-    /*TODO loop on local json*/
+    *//*TODO loop on local json*//*
     var category = decoded["value"];
     print("category marvel=$category");
 
@@ -548,58 +541,59 @@ class GameItemState extends State<GameItem> {
     super.initState();
 
     refreshData(widget.gameTitle, widget.gameImage);
-
-    _canVibrate();
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      child: Column(children: <Widget>[
-        Expanded(
+      child: Stack(children: <Widget>[
+        Align(
+          alignment: Alignment.topCenter,
           child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff0B3672),
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    topLeft: Radius.circular(10)),
+            decoration: new BoxDecoration(
+              color: Colors.indigo,
+              borderRadius: new BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.all(0),
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.keyboard_backspace,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  Route route = MaterialPageRoute(
-                                      builder: (context) => Alphabets());
-                                  Navigator.pushReplacement(context, route);
-                                });
-                              }))
-                    ],
+            ),
+            width: double.infinity,
+            height: 280,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.keyboard_backspace,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        Route route = MaterialPageRoute(
+                            builder: (context) => Alphabets());
+                        Navigator.pushReplacement(context, route);
+                      });
+                    },
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        completeLast ? "Completed" : timeOnScreen,
-                        style: TextStyle(
-                            color: completeLast ? Colors.green : Colors.white,
-                            fontSize: 14.0),
-                      ),
-                      Text(widget.gameLevelName,
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 20.0)),
-                      Row(
+                ),
+                Row(
+                  children: <Widget>[
+                    Padding(padding: EdgeInsets.only(left: 30)),
+                    Expanded(
+                        child: Text(
+                          completeLast ? "Completed" : timeOnScreen,
+                          style: TextStyle(
+                              color: completeLast ? Colors.green : Colors.white,
+                              fontSize: 16.0),
+                        )),
+                    Expanded(
+                        child: Text(widget.gameLevelName,
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 20.0))),
+                    Expanded(
+                      child: Row(
                         children: <Widget>[
                           Icon(
                             Icons.stars,
@@ -610,292 +604,244 @@ class GameItemState extends State<GameItem> {
                                   color: Colors.white, fontSize: 20.0))
                         ],
                       ),
-                    ],
-                  ),
-                  Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Container(
-                          width: double.infinity,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            child: Image.asset(
-                              "images/${widget.gameImage}",
-                              // width: double.infinity,
-                              height: 180,
-                            ),
-                          )))
-                ],
-              )),
-          flex: 2,
-        ),
-        Expanded(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 6,
-                    childAspectRatio: 1,
-                    padding:
-                        EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-                    mainAxisSpacing: 0,
-                    crossAxisSpacing: 20.0,
-                    children: List.generate(entryList.length, (indexEntry) {
-                      return Column(
-                        children: <Widget>[
-                          Text(
-                            entryList[indexEntry],
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                          Container(
-                            width: 25,
-                            height: 2,
-                            color: listBoolEntry[indexEntry]
-                                ? Color(0xff0B3672)
-                                : Colors.grey,
-                          )
-                        ],
-                      );
-                    }),
-                  ),
-                  flex: 1,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 10.0, left: 10.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffCFE3F4)),
-                      child: GridView.count(
-                        crossAxisCount: 4,
-                        childAspectRatio: 1.3,
-                        // padding: EdgeInsets.all(10.0),
-                        mainAxisSpacing: 4,
-                        crossAxisSpacing: 10.0,
-                        children: List.generate(wordList.length, (index) {
-                          return Card(
-                            color: listBool[index]
-                                ? Color(0xff0B3672)
-                                : Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                side: BorderSide(
-                                  color: listBool[index]
-                                      ? Colors.white
-                                      : Color(0xff0B3672),
-                                  width: 2.0,
-                                )),
-                            child: InkWell(
-                              child: Center(
-                                child: Text(
-                                  wordList[index],
-                                  style: TextStyle(
-                                      color: listBool[index]
-                                          ? Colors.white
-                                          : Color(0xff0B3672),
-                                      fontSize: 16.0),
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  print(wordList[index]);
-                                  audioSoundButton();
-                                  buttonPressed(wordList[index], index);
-                                });
-                              },
-                            ),
-                          );
-                        }),
-                      ),
                     ),
-                  ),
-                  flex: 2,
+                  ],
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 10, left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              side: BorderSide(
-                                color: Color(0xff0B3672),
-                                width: 2.0,
-                              )),
-                          elevation: 4.0,
-                          color: Colors.white,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.pause,
-                              color: Color(0xff0B3672),
-                            ),
-                            onPressed: () {
-                              showAlertDialogPause();
-                            },
-                          ),
-                        ),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.all(0),
-                        )),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              side: BorderSide(
-                                color: Color(0xff0B3672),
-                                width: 2.0,
-                              )),
-                          elevation: 4.0,
-                          color: Colors.white,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.backspace,
-                              color: Color(0xff0B3672),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                deleteSound();
-                                deleteMethod();
-
-                                //Navigator.pop(context);
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                Padding(padding: EdgeInsets.only(top: 15)),
+                Container(
+                  width: double.infinity,
+                  height: 180,
+                  padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                  child: Card(
+                    elevation: 4.0,
+                    color: Colors.white,
+                    child: Image.asset("images/${widget.gameImage}"),
                   ),
-                  flex: 1,
-                )
+                ),
               ],
             ),
-            flex: 2),
+          ),
+        ),
+        Align(
+          alignment: Alignment(0.0, 0.08),
+          child: Container(
+            width: double.infinity,
+            height: 70,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: GridView.count(
+                crossAxisCount: 6,
+                childAspectRatio: 1,
+                padding: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+                mainAxisSpacing: 0,
+                crossAxisSpacing: 20.0,
+                children: List.generate(entryList.length, (indexEntry) {
+                  return Column(
+                    children: <Widget>[
+                      Text(
+                        entryList[indexEntry],
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                      Container(
+                        width: 25,
+                        height: 2,
+                        color: listBoolEntry[indexEntry]
+                            ? Colors.cyanAccent
+                            : Colors.grey,
+                      )
+                    ],
+                  );
+                }),
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment(0.0, 0.7),
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Container(
+              width: double.infinity,
+              height: 170,
+              decoration: new BoxDecoration(
+                color: Colors.indigo[100],
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+              child: GridView.count(
+                crossAxisCount: 3,
+                childAspectRatio: 1.2,
+                padding: EdgeInsets.all(10.0),
+                mainAxisSpacing: 04.0,
+                crossAxisSpacing: 10.0,
+                children: List.generate(wordList.length, (index) {
+                  return Card(
+                    color: listBool[index] ? Colors.indigo : Colors.white,
+                    child: InkWell(
+                      child: Center(
+                        child: Text(
+                          wordList[index],
+                          style: TextStyle(
+                              color: listBool[index]
+                                  ? Colors.white
+                                  : Colors.indigo,
+                              fontSize: 16.0),
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          print(wordList[index]);
+
+                          buttonPressed(wordList[index], index);
+                        });
+                      },
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment(-0.9, 0.95),
+          child: Container(
+            width: 50.0,
+            height: 50.0,
+            child: Card(
+              elevation: 4.0,
+              color: Colors.indigo[300],
+              child: IconButton(
+                icon: Icon(
+                  Icons.pause,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  showAlertDialogPause();
+                },
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment(0.9, 0.95),
+          child: Container(
+            width: 50.0,
+            height: 50.0,
+            child: Card(
+              elevation: 4.0,
+              color: Colors.indigo[300],
+              child: IconButton(
+                icon: Icon(
+                  Icons.backspace,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  setState(() {
+                    deleteMethod();
+
+                    //Navigator.pop(context);
+                  });
+                },
+              ),
+            ),
+          ),
+        ),
       ]),
     );
   }
 
   void showAlertDialogPause() {
-    Dialog errorDialog = Dialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        //this right here
-        child: Container(
-          height: 550.0,
-          width: 400.0,
-          child: Padding(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    FloatingActionButton(
-                      elevation: 5.0,
-                      backgroundColor: Color(0xff0B3672),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
-                ),
-                Text(
-                  "Pause",
-                  style: TextStyle(
-                      color: Color(0xff0B3672),
-                      fontSize: 34.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                Padding(padding: EdgeInsets.all(5.0)),
-                Container(
-                  width: double.infinity,
-                  height: 3.0,
-                  color: Color(0xff0B3672),
-                ),
-                Padding(padding: EdgeInsets.all(5.0)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Expanded(child: SvgPicture.asset("images/speaker.svg")),
 
-                    SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        activeTrackColor: Colors.red,
-                        inactiveTrackColor: Colors.black,
-                        trackHeight: 3.0,
-                        thumbColor: Colors.yellow,
-                        thumbShape:
-                            RoundSliderThumbShape(enabledThumbRadius: 8.0),
-                        overlayColor: Colors.purple.withAlpha(32),
-                        overlayShape:
-                            RoundSliderOverlayShape(overlayRadius: 14.0),
+    Dialog errorDialog = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      //this right here
+      child: Container(
+        height: 550.0,
+        width: 400.0,
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.keyboard_backspace,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            setState(() {});
+                          },
+                        ),
                       ),
-                      child: Slider(
-                          value: sliderValue,
-                          onChanged: (value) {
-                            setState(() {
-                              sliderValue = value;
-                            });
-                          }),
-                    ),
-                  ],
-                )
+                      Row(
+                        children: <Widget>[
+                          Padding(padding: EdgeInsets.only(left: 30)),
+                          Expanded(
+                              child: Text(
+                                "00.26",
+                                style:
+                                TextStyle(color: Colors.indigo, fontSize: 16.0),
+                              )),
+                          Expanded(
+                              child: Text("Animal",
+                                  style: TextStyle(
+                                      color: Colors.indigo, fontSize: 20.0))),
+                          Expanded(
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.stars,
+                                  color: Colors.yellow,
+                                ),
+                                Text("250",
+                                    style: TextStyle(
+                                        color: Colors.indigo, fontSize: 20.0))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 15)),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ));
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                widget.gameTitle,
+                style: TextStyle(
+                  color: Colors.indigo,
+                  fontSize: 20.0,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Image.asset("images/${widget.gameImage}"),
+            ),
+            Padding(padding: EdgeInsets.only(top: 30.0)),
+            FloatingActionButton(
+                elevation: 5.0,
+                backgroundColor: Colors.blue,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                ))
+          ],
+        ),
+      ),
+    );
     showDialog(
         context: context, builder: (BuildContext context) => errorDialog);
   }
-
-  void audioSoundButton() async {
-    AudioCache player = AudioCache();
-    await player.clear("click.wav");
-    await player.play("click.wav");
-  }
-
-  void deleteSound() async {
-    AudioCache player = AudioCache();
-    await player.clear("delete_three.wav");
-    await player.play("delete_three.wav");
-  }
-
-  void errorSound() async {
-    AudioCache player = AudioCache();
-    await player.clear("error_loose.mp3");
-    await player.play("error_loose.mp3");
-
-    print("canVibrate2 ${canVibrate}");
-
-    if (canVibrate) {
-      Vibrate.vibrate();
-    }
-
-    /* final Iterable<Duration> pauses = [
-      const Duration(milliseconds: 500),
-      const Duration(milliseconds: 1000),
-      const Duration(milliseconds: 500),
-    ];
-    Vibrate.vibrateWithPauses(pauses);*/
-
-    //HapticFeedback.vibrate();
-  }
-
-  void _canVibrate() async {
-    canVibrate = await Vibrate.canVibrate;
-  }
-}
+}*/

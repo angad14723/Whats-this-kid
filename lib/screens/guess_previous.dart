@@ -15,7 +15,7 @@ class GuessPreviousState extends State<GuessPrevious> {
     // TODO: implement build
     return Container(
       decoration: new BoxDecoration(
-        color: Colors.indigo,
+        color: Color(0xff0B3672),
         borderRadius: new BorderRadius.only(
             topLeft: Radius.circular(10.0),
             topRight: Radius.circular(10.0),
